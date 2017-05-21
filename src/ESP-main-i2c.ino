@@ -60,7 +60,8 @@ void setup() {
 
   DEBUG.println();
   DEBUG.print("io2LIFE ");
-  DEBUG.println(ESP.getChipId());
+  //DEBUG.println(ESP.getChipId());
+  DEBUG.println(WiFi.macAddress());
   DEBUG.println("Firmware: "+ currentfirmware);
 
   // Read saved settings from the config
@@ -128,6 +129,7 @@ void loop()
       {
             readFromOneWire();
             sendTempData(); //send all sensor temp data
+            i2c_relayControl();
             userTempset = 0;
       }
 
