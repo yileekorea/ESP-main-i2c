@@ -14,7 +14,7 @@ script:
   - platformio run -e io2life_deploy
   - platformio run -t buildfs -e io2life_deploy
 
-  - RELEASE_VER="release.0.0.6"
+  - RELEASE_VER="release.0.0.7"
   #- LOCAL_VER="local.0.0.6"
   - echo $TRAVIS_BRANCH / $RELEASE_VER
 
@@ -57,4 +57,3 @@ deploy:
 
   api-key:
     secure:    YVaXLwUnFH9baJUGXBD8UxdFuZizllbsJZWq+1fVWdSfzX8NU9oO4JHA7rhYjTRV4+cwXjJ7L3E/sFTPBDzROwZrLMocgmJDIwOzGEp5+Tdsfjc2xL3cpgVhsrsz4tdApHzm0iAgk83Oig8rs84E6QFBbblFbsor2xuJsPIFxZhxnR0F3hzdmbVx9dPt08vxCv5H4pxJCr9BkTb/ZjpByEYyTJzjrAzN/QMUY+0FduxvSm2GQP0h0doErD955w4guVqVoqjZlYsfRPZ+VDHftx6rEOnS0z7ySU/8fftGdf8Hg7EsQk2uk9U55G4KuNfYk2RuiCtd64Hh6oUiUp/PdAN367Aoaj/jEmLvGFzsA9a+pprm1IiQb1JxRjgbF3AGLCql/2/CfswuTbBDiU9wUArU2u2bpwRXLl6aU7/wozFlHAqiK5L+1Tvz6OTOnOKIku9+Ag7uPBQkMNAW1ILWn1WidBIQfwci/fk+1nNv5vZSR56pAc9nhxZDSsWb8vr3E9+r3V8SHf/+AjDSODBSa0TO2+Bv/LLDT/HltmjzHGol/Q6DZJkwtGB3z8I7lHyXeGe2wTnlzTbIgGcFap8l624XgFjMRBJFX1+9WpsaGjh6bkJxFfGZ3MK0xjtInL0eInIxt8bixLpApBe6zE/qzp51RAcNKPy8roW5nnSHiQs=
-    
