@@ -59,7 +59,7 @@ void setup() {
 #endif
 
   DEBUG.println();
-  DEBUG.print("io2LIFE ");
+  DEBUG.print("io2Better ");
   //DEBUG.println(ESP.getChipId());
   DEBUG.println(WiFi.macAddress());
   DEBUG.println("Firmware: "+ currentfirmware);
@@ -132,15 +132,7 @@ void loop()
         tempTry = millis();
         s_loop == (numSensor-1) ? s_loop=0 : s_loop++;
   		}
-/*      //else if ((userTempset == 1) && mqtt_connected())  // 6sec
-      else if ((userTempset == 1) && 1)  // 6sec
-      {
-            readFromOneWire();
-            sendTempData(); //send all sensor temp data
-            i2c_relayControl();
-            userTempset = 0;
-      }
-*/
+
     } //if((mqtt_server != 0) ...
   } //if (wifi_mode==WIFI_MODE_STA ...
 } // end loop
