@@ -37,7 +37,7 @@ DNSServer dnsServer;                  // Create class DNS server, captive portal
 const byte DNS_PORT = 53;
 
 // Access Point SSID, password & IP address. SSID will be softAP_ssid + chipID to make SSID unique
-const char *softAP_ssid = "io2lifeESP";
+const char *softAP_ssid = "io2Better_AP";
 const char* softAP_password = "password";
 IPAddress apIP(192, 168, 4, 1);
 IPAddress netMsk(255, 255, 255, 0);
