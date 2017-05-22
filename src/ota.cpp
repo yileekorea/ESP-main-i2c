@@ -139,6 +139,7 @@ void do_reboot_exe()
 	digitalWrite(ESP_RESET_CTL, LOW);
 	delay(100);
 	digitalWrite(ESP_RESET_CTL, HIGH);
+	Serial.println("digitalWrite(ESP_RESET_CTL!!!!");
 
 	ESP.reset();
 }

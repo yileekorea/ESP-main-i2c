@@ -25,9 +25,13 @@
 
 #include "io2better.h"
 #include "config.h"
+#include "input.h"
 
 #include <Arduino.h>
 #include <EEPROM.h>                   // Save config settings
+
+#include <FS.h>
+#include "ArduinoJson.h"          //https://github.com/bblanchon/ArduinoJson
 
 // Wifi Network Strings
 String esid = "";
@@ -92,6 +96,34 @@ String mqtt_feed_prefix = "";
 #define EEPROM_WWW_PASS_START     EEPROM_WWW_USER_END
 #define EEPROM_WWW_PASS_END       (EEPROM_WWW_PASS_START + EEPROM_WWW_PASS_SIZE)
 
+// -------------------------------------------------------------------
+//save the custom parameters to FS
+// -------------------------------------------------------------------
+void L_Temp2SPIFFS()
+{
+  if (SPIFFS.begin())
+  {
+   Serial.println("ESP8266 config json save...");
+    DynamicJsonBuffer jsonBuffer;
+    JsonObject& json = jsonBuffer.createObject();
+    String roomNo = "room_";
+    for (byte i = 1; i < numSensor; ++i) {
+      String roomNo = "";
+      roomNo = "room_";
+      roomNo += i;
+      json[roomNo] = L_Temp[i-1];
+    }
+
+    File configFile = SPIFFS.open("/L_temp.json", "w");
+    if (!configFile) {
+      Serial.println("failed to open config file for writing");
+    }
+    json.prettyPrintTo(Serial);
+    json.printTo(configFile);
+    configFile.close();
+    //end save
+  }
+}
 // -------------------------------------------------------------------
 // Reset EEPROM, wipes all settings
 // -------------------------------------------------------------------
