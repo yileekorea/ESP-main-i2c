@@ -281,7 +281,7 @@ document.getElementById("save-command").addEventListener("click", function(e) {
     var command = {
       exec: document.getElementById("command").value,
     }
-    document.getElementById("save-command").innerHTML = "Sending...";
+    document.getElementById("save-command").innerHTML = "실행...";
     var r = new XMLHttpRequest();
     r.open("POST", "savecommand", true);
     r.setRequestHeader("Content-type","application/x-www-form-urlencoded");
@@ -291,7 +291,7 @@ document.getElementById("save-command").addEventListener("click", function(e) {
       if (r.readyState != 4 || r.status != 200) return;
       var str = r.responseText;
 	    console.log(str);
-	    if (str!=0) document.getElementById("save-command").innerHTML = "Sent";
+	    if (str!=0) document.getElementById("save-command").innerHTML = "명령(command)";
     };
 });
 // -----------------------------------------------------------------------
