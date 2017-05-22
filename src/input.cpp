@@ -35,7 +35,7 @@ String sName[]= {"a","b","c","d","e","f","g","h","i","j"};
 float old_celsius[] = {26,26,26,26,26,26,26,26,26,26};
 float celsius[] = {26,26,26,26,26,26,26,26,26,26};
 float rStatus[] = {0,0,0,0,0,0,0,0}; //room status all OFF
-float L_Temp[] = {26,26,26,26,26,26,26,26};
+float L_Temp[] = {26.7,26.7,26.7,26.7,26.7,26.7,26.7,26.7};
 byte address[10][8];
 
 

@@ -33,6 +33,8 @@
 #include <FS.h>
 #include "ArduinoJson.h"          //https://github.com/bblanchon/ArduinoJson
 
+char config_Temp[8];
+
 // Wifi Network Strings
 String esid = "";
 String epass = "";
@@ -124,6 +126,56 @@ void L_Temp2SPIFFS()
     //end save
   }
 }
+
+// -------------------------------------------------------------------
+//save the custom parameters to FS
+// -------------------------------------------------------------------
+void SPIFFS2L_Temp()
+{
+  Serial.println("Before .... mounted file system");
+  if (SPIFFS.begin()) {
+    Serial.println("mounted file system");
+    if (SPIFFS.exists("/L_temp.json"))
+    {
+      //file exists, reading and loading
+      Serial.println("reading config file");
+      File configFile = SPIFFS.open("/L_temp.json", "r");
+      if (configFile) {
+        Serial.println("opened config file");
+        size_t size = configFile.size();
+        // Allocate a buffer to store contents of the file.
+        std::unique_ptr<char[]> buf(new char[size]);
+
+        configFile.readBytes(buf.get(), size);
+        DynamicJsonBuffer jsonBuffer;
+        JsonObject& json = jsonBuffer.parseObject(buf.get());
+        json.printTo(Serial);
+        if (json.success()) {
+          Serial.println("\nparsed json");
+
+          String roomNo = "room_";
+          for (byte i = 1; i < numSensor; ++i) {
+            String roomNo = "";
+            roomNo = "room_";
+            roomNo += i;
+            //L_Temp[i-1] = atof(strcpy(config_Temp, json[roomNo]));
+            //DEBUG.println(L_Temp[i-1]);
+            L_Temp[i-1] = atof(json[roomNo]);
+            DEBUG.println(L_Temp[i-1]);
+
+          }
+
+        } //if (json.success())
+        else {
+          Serial.println("failed to load json config");
+        }
+      }
+    }
+  } else {
+    Serial.println("failed to mount FS");
+  }
+}
+
 // -------------------------------------------------------------------
 // Reset EEPROM, wipes all settings
 // -------------------------------------------------------------------
@@ -158,18 +210,19 @@ void EEPROM_write_string(int start, int count, String val) {
 // -------------------------------------------------------------------
 void config_load_settings()
 {
+  //SPIFFS2L_Temp();
   EEPROM.begin(EEPROM_SIZE);
 
   // Load WiFi values
   EEPROM_read_srting(EEPROM_ESID_START, EEPROM_ESID_SIZE, esid);
   EEPROM_read_srting(EEPROM_EPASS_START, EEPROM_EPASS_SIZE, epass);
-
+/*
   // ESP-main-2 settings
   EEPROM_read_srting(EEPROM_EMON_API_KEY_START, EEPROM_EMON_API_KEY_SIZE, emoncms_apikey);
   EEPROM_read_srting(EEPROM_EMON_SERVER_START, EEPROM_EMON_SERVER_SIZE, emoncms_server);
   EEPROM_read_srting(EEPROM_EMON_NODE_START, EEPROM_EMON_NODE_SIZE, emoncms_node);
   EEPROM_read_srting(EEPROM_EMON_FINGERPRINT_START, EEPROM_EMON_FINGERPRINT_SIZE, emoncms_fingerprint);
-
+*/
   // MQTT settings
   EEPROM_read_srting(EEPROM_MQTT_SERVER_START, EEPROM_MQTT_SERVER_SIZE, mqtt_server);
   EEPROM_read_srting(EEPROM_MQTT_TOPIC_START, EEPROM_MQTT_TOPIC_SIZE, mqtt_topic);

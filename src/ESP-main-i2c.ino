@@ -88,6 +88,8 @@ void setup() {
 
   readOneWireAddr();
 
+  SPIFFS2L_Temp();
+
   DEBUG.println("Loop start");
 } // end setup
 
