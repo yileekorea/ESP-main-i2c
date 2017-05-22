@@ -191,9 +191,12 @@ void send_a_TempData(byte Sensor) {
 void sendTempData() {
     byte i;
     for ( i = 0; i < numSensor ; i++) {
+      send_a_TempData(i);
+/*
 		//if(old_celsius[i] != celsius[i]){
     //if(abs(old_celsius[i] - celsius[i]) > 0.1 )
     {
+
 			char pChrBuffer[5];
 			String payload = "{\"tbl_name\":";
 			payload += "\"";
@@ -229,8 +232,9 @@ void sendTempData() {
 		} //if(abs(old_celsius[i] - celsius[i]) > 0.1 )
 		sName[i] = "";
 		//old_celsius[i] = celsius[i];
+    */
 
-	} //numSensor
+	} //for ( i = 0; i < numSensor...
 }
 // -------------------------------------------------------------------
 // MQTT sendmqttMsg sending

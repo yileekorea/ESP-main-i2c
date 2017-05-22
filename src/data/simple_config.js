@@ -281,7 +281,7 @@ document.getElementById("save-command").addEventListener("click", function(e) {
     var command = {
       exec: document.getElementById("command").value,
     }
-    document.getElementById("save-command").innerHTML = "실행...";
+    document.getElementById("save-command").innerHTML = "명령 실행...";
     var r = new XMLHttpRequest();
     r.open("POST", "savecommand", true);
     r.setRequestHeader("Content-type","application/x-www-form-urlencoded");

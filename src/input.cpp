@@ -49,9 +49,6 @@ void readOneWireAddr()
 {
   byte nSensor = 0;
   byte i;
-  //byte present = 0;
-  //byte type_s;
-  //byte data[12];
   byte addr[8];
 
   //Serial.println("readOneWireAddr");
@@ -81,7 +78,7 @@ void readOneWireAddr()
 }
 
 /*
- * ask Sensor to measure Temperature
+ * read out the measured Temperature data
  */
 void readoutTemperature(byte Sensor)
 {
@@ -189,9 +186,7 @@ void measureTemperature(byte Sensor)
 {
   byte nSensor = Sensor;
   byte s, i;
-  //byte present = 0;
   byte type_s;
-  //byte data[12];
   byte addr[8];
 
   //Serial.println("measureTemperature");
