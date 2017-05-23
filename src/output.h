@@ -41,6 +41,10 @@
 // data: if true is returned data will be updated with the new line of
 //       input
 // -------------------------------------------------------------------
+extern unsigned long vControlTimer[];
+extern byte isOFF[];
+
+
 extern void tick();
 extern void LED_setup(float t);
 extern void LED_clear();

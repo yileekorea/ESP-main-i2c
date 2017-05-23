@@ -42,6 +42,8 @@ Adafruit_MCP23017 mcp_i2c;
 
 Ticker ticker;
 
+unsigned long vControlTimer[] = {0,0,0,0,0,0,0,0};
+byte isOFF[] = {0,0,0,0,0,0,0,0};
 
 void wireSetup()
 {
@@ -74,9 +76,29 @@ void i2c_relayControl() {
     byte i;
 
 	for ( i = 0; i < (numSensor) ; i++) {
-		if(L_Temp[i] <= celsius[i]){
-			mcp_i2c.digitalWrite(i,HIGH); //if current celsius Greater than setting --> LOW
-		} else {
+		if((L_Temp[i] <= celsius[i])){
+      if(isOFF[i] == 0){
+        mcp_i2c.digitalWrite(i,HIGH); //if current celsius Greater than setting --> off
+        vControlTimer[i] = millis();
+        isOFF[i] = 1;
+        DEBUG.print(" isOFF: ");
+        DEBUG.print(i);
+        DEBUG.println(isOFF[i]);
+      }
+		}
+
+DEBUG.println();
+DEBUG.print(i);
+DEBUG.print(" : millis-");
+DEBUG.print(millis());
+DEBUG.print("  -   vControlTimer-");
+DEBUG.print(vControlTimer[i]);
+DEBUG.print("  =  ");
+DEBUG.println((millis() - vControlTimer[i]));
+
+
+    if((L_Temp[i] > celsius[i]) || ((millis() - vControlTimer[i]) > 60000UL)) {
+      DEBUG.println();
       DEBUG.print("L_Temp-");
       DEBUG.print(i);
       DEBUG.print(" : ");
@@ -85,11 +107,10 @@ void i2c_relayControl() {
       DEBUG.print(i);
       DEBUG.print(" : ");
       DEBUG.println(celsius[i]);
+      DEBUG.println();
 
       mcp_i2c.digitalWrite(i,LOW);
-
-      DEBUG.print(" mcp_i2c.digitalWrite(i,LOW): ");
-      DEBUG.println(i);
+      isOFF[i] = 0;
 		}
 	} // for
 
