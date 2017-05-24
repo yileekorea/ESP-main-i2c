@@ -35,7 +35,7 @@
 #include <FS.h>
 
 ESP8266HTTPUpdateServer httpUpdater;  // Create class for webupdate handleWebUpdate()
-#define CHECK_INTERVAL 3600
+#define CHECK_INTERVAL 36000
 
 
 // -------------------------------------------------------------------

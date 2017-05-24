@@ -77,7 +77,7 @@ void i2c_relayControl() {
     byte i;
 
     for ( i = 1; i < (numSensor-1) ; i++) {
-      rStatus[i] == 0 ? mcp_i2c.digitalWrite(i+3,HIGH) : mcp_i2c.digitalWrite(i+3,LOW);
+      rStatus[i] == 0 ? mcp_i2c.digitalWrite(i,HIGH) : mcp_i2c.digitalWrite(i,LOW);
     }
 /*
 	for ( i = 0; i < (numSensor) ; i++) {

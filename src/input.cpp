@@ -45,6 +45,47 @@ byte isOFF[] = {0,0,0,0,0,0,0,0};
 
 String input_string="";
 String last_datastr="";
+/*
+ * setON_OFFstatus by the measured Temperature
+ */
+void setON_OFFstatus(byte Sensor){
+  byte nSensor = Sensor;
+
+  if((L_Temp[nSensor] <= celsius[nSensor]) && ((millis() - Timer_2[nSensor]) > 60000UL) && (isOFF[nSensor] == 0)) { // 1min
+		rStatus[nSensor] = 0;
+    Timer_1[nSensor] = millis();
+    isOFF[nSensor] = 1;
+  }
+  if(L_Temp[nSensor] > celsius[nSensor]) {
+    rStatus[nSensor] = L_Temp[nSensor];
+    isOFF[nSensor] = 0;
+    if(L_Temp[nSensor]){
+			Serial.print("  rStatus[] -----> ");
+			Serial.println(rStatus[nSensor]);
+		}
+  }
+  else if((millis() - Timer_1[nSensor]) > 180000UL) { //3min
+    rStatus[nSensor] = L_Temp[nSensor];
+    DEBUG.println();
+    DEBUG.print(nSensor);
+    DEBUG.print(" : millis-");
+    DEBUG.print(millis());
+    DEBUG.print("  -   vControlTimer-");
+    DEBUG.print(Timer_1[nSensor]);
+    DEBUG.print("  =  ");
+    DEBUG.println((millis() - Timer_1[nSensor]));
+
+    Timer_1[nSensor] = millis();
+    Timer_2[nSensor] = millis();
+
+    isOFF[nSensor] = 0;
+    if(L_Temp[nSensor]){
+			Serial.print("  rStatus[] -----> ");
+			Serial.println(rStatus[nSensor]);
+		}
+
+  } //else if((millis() - Timer_1...
+}
 
 /*
  * Sensor address read
@@ -185,47 +226,6 @@ void readoutTemperature(byte Sensor)
   //} //numSensor
 } //readTemperature
 
-/*
- * setON_OFFstatus by the measured Temperature
- */
-void setON_OFFstatus(byte Sensor){
-  byte nSensor = Sensor;
-
-  if((L_Temp[nSensor] <= celsius[nSensor]) && ((millis() - Timer_2[nSensor]) > 60000UL) && (isOFF[nSensor] == 0)) { // 1min
-		rStatus[nSensor] = 0;
-    Timer_1[nSensor] = millis();
-    isOFF[nSensor] = 1;
-  }
-  if(L_Temp[nSensor] > celsius[nSensor]) {
-    rStatus[nSensor] = L_Temp[nSensor];
-    isOFF[nSensor] = 0;
-    if(L_Temp[nSensor]){
-			Serial.print("  rStatus[] -----> ");
-			Serial.println(rStatus[nSensor]);
-		}
-  }
-  else if((millis() - Timer_1[nSensor]) > 180000UL) { //3min
-    rStatus[nSensor] = L_Temp[nSensor];
-    DEBUG.println();
-    DEBUG.print(nSensor);
-    DEBUG.print(" : millis-");
-    DEBUG.print(millis());
-    DEBUG.print("  -   vControlTimer-");
-    DEBUG.print(Timer_1[nSensor]);
-    DEBUG.print("  =  ");
-    DEBUG.println((millis() - Timer_1[nSensor]));
-
-    Timer_1[nSensor] = millis();
-    Timer_2[nSensor] = millis();
-
-    isOFF[nSensor] = 0;
-    if(L_Temp[nSensor]){
-			Serial.print("  rStatus[] -----> ");
-			Serial.println(rStatus[nSensor]);
-		}
-
-  } //else if((millis() - Timer_1...
-}
 
 /*
  * ask Sensor to measure Temperature
@@ -366,7 +366,7 @@ String readFromOneWire()
 		Serial.print("] ====> ");
 		Serial.print(L_Temp[nSensor]);
 	}
-
+/*
 	if(L_Temp[nSensor] <= celsius[nSensor]){
 		rStatus[nSensor] = 0;
 	}else{
@@ -376,9 +376,11 @@ String readFromOneWire()
 			Serial.println(rStatus[nSensor]);
 		}
 	}
+*/
+    setON_OFFstatus(nSensor);
 
     nSensor += 1;
-	payload = "OK";
+    payload = "OK";
 
   }
     Serial.println();
