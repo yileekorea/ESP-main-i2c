@@ -286,6 +286,8 @@ String readFromOneWire()
     }
     Serial.println();
 
+    //readoutTemperature(nSensor);
+
     // the first ROM byte indicates which chip
     switch (addr[0]) {
           case 0x10:
