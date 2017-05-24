@@ -28,6 +28,8 @@
 
 #include "OneWire.h"
 
+#define interOpenTimer 300000UL //5min
+#define autoOff_OnTimer 1800000UL //30min
 
 OneWire  ds(2);  // on pin 2 (a 4.7K resistor is necessary)
 
@@ -51,7 +53,7 @@ String last_datastr="";
 void setON_OFFstatus(byte Sensor){
   byte nSensor = Sensor;
 
-  if((L_Temp[nSensor] <= celsius[nSensor]) && ((millis() - Timer_2[nSensor]) > 60000UL) && (isOFF[nSensor] == 0)) { // 1min
+  if((L_Temp[nSensor] <= celsius[nSensor]) && ((millis() - Timer_2[nSensor]) > interOpenTimer) && (isOFF[nSensor] == 0)) { 
 		rStatus[nSensor] = 0;
     Timer_1[nSensor] = millis();
     isOFF[nSensor] = 1;
@@ -64,7 +66,7 @@ void setON_OFFstatus(byte Sensor){
 			Serial.println(rStatus[nSensor]);
 		}
   }
-  else if((millis() - Timer_1[nSensor]) > 180000UL) { //3min
+  else if((millis() - Timer_1[nSensor]) > autoOff_OnTimer) {
     rStatus[nSensor] = L_Temp[nSensor];
     DEBUG.println();
     DEBUG.print(nSensor);
