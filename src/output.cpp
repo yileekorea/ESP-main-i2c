@@ -41,11 +41,11 @@ gpio_MCP23S17 mcp(MCP_CS,0x20);//instance
 Adafruit_MCP23017 mcp_i2c;
 
 Ticker ticker;
-
+/*
 unsigned long Timer_1[] = {0,0,0,0,0,0,0,0};
 unsigned long Timer_2[] = {0,0,0,0,0,0,0,0};
 byte isOFF[] = {0,0,0,0,0,0,0,0};
-
+*/
 void wireSetup()
 {
   byte i;
@@ -76,6 +76,10 @@ void wireSetup()
 void i2c_relayControl() {
     byte i;
 
+    for ( i = 1; i < (numSensor-1) ; i++) {
+      rStatus[i] == 0 ? mcp_i2c.digitalWrite(i+3,HIGH) : mcp_i2c.digitalWrite(i+3,LOW);
+    }
+/*
 	for ( i = 0; i < (numSensor) ; i++) {
     //if((L_Temp[i] <= celsius[i]) && ((millis() - Timer_2[i]) > 60000UL)) { // 1min
 		if((L_Temp[i] <= celsius[i]) && ((millis() - Timer_2[i]) > 60000UL) && (isOFF[i] == 0)) { // 1min
@@ -125,7 +129,7 @@ void i2c_relayControl() {
 
     }
 	} // for
-
+*/
 }
 
 void wireLoop()

@@ -41,10 +41,11 @@
 // data: if true is returned data will be updated with the new line of
 //       input
 // -------------------------------------------------------------------
+/*
 extern unsigned long Timer_1[];
 extern unsigned long Timer_2[];
 extern byte isOFF[];
-
+*/
 
 extern void tick();
 extern void LED_setup(float t);
