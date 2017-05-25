@@ -145,8 +145,7 @@ boolean reconnect() {
 void send_a_TempData(byte Sensor) {
     byte i = Sensor;
     //for ( i = 0; i < numSensor ; i++) {
-    if(abs(old_celsius[i] - celsius[i]) > 0.1){ //temp. difference is...
-		//if(old_celsius[i] != celsius[i]){
+    if((abs(old_celsius[i] - celsius[i]) > 0.1) || (old_rStatus[i] != rStatus[i])) { //temp. difference is...
 
 			char pChrBuffer[5];
 			String payload = "{\"tbl_name\":";
@@ -178,9 +177,12 @@ void send_a_TempData(byte Sensor) {
 			payload += "}";
 
 			sendmqttMsg((char *)topic_pub.c_str(), (char *)payload.c_str());
+
+			old_celsius[i] = celsius[i];
 		}
 		sName[i] = "";
-		old_celsius[i] = celsius[i];
+		//old_celsius[i] = celsius[i];
+		old_rStatus[i] = rStatus[i];
 
 	//} //numSensor
 }

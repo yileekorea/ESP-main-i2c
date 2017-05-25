@@ -36,6 +36,7 @@ OneWire  ds(2);  // on pin 2 (a 4.7K resistor is necessary)
 String sName[]= {"a","b","c","d","e","f","g","h","i","j"};
 float old_celsius[] = {26,26,26,26,26,26,26,26};
 float celsius[] = {26,26,26,26,26,26,26,26};
+float old_rStatus[] = {1,1,1,1,1,1,1,1}; //room status all ON
 float rStatus[] = {0,0,0,0,0,0,0,0}; //room status all OFF
 float L_Temp[] = {26.7,26.7,26.7,26.7,26.7,26.7,26.7,26.7};
 byte address[10][8];
@@ -53,7 +54,7 @@ String last_datastr="";
 void setON_OFFstatus(byte Sensor){
   byte nSensor = Sensor;
 
-  if((L_Temp[nSensor] <= celsius[nSensor]) && ((millis() - Timer_2[nSensor]) > interOpenTimer) && (isOFF[nSensor] == 0)) { 
+  if((L_Temp[nSensor] <= celsius[nSensor]) && ((millis() - Timer_2[nSensor]) > interOpenTimer) && (isOFF[nSensor] == 0)) {
 		rStatus[nSensor] = 0;
     Timer_1[nSensor] = millis();
     isOFF[nSensor] = 1;

@@ -38,6 +38,7 @@ extern String input_string;
 extern String sName[];
 extern float old_celsius[];
 extern float celsius[];
+extern float old_rStatus[];
 extern float rStatus[];
 extern float L_Temp[];
 extern byte address[10][8];
