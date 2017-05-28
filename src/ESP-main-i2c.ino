@@ -90,16 +90,15 @@ void setup() {
 
   SPIFFS2L_Temp();
 
-  DEBUG.println("Loop start");
-
   if (wifi_mode == WIFI_MODE_STA){
+      DEBUG.println("Loop start...");
       LED_clear();
   }
   else{
-	DEBUG.println("WIFI_MODE_AP_ONLY start");
-    LED_setup(0.2);
+	   DEBUG.println("WIFI_MODE is not STA...");
+     LED_setup(0.2);
   }
-  
+
 } // end setup
 
 // -------------------------------------------------------------------
@@ -121,14 +120,14 @@ void loop()
       //if ((tempTry == 0 || ((millis() - tempTry) > 6000UL))  && mqtt_connected())  // 6sec
   		if ((tempTry == 0 || ((millis() - tempTry) > 6000UL))  && 1)  // 6sec
   		{
+        DEBUG.println();
         DEBUG.println("Firmware: "+ currentfirmware);
         if ((userTempset == 1)){
             readFromOneWire();
             sendTempData(); //send all sensor temp data
             userTempset = 0;
         }
-        else
-        {
+        else {
             measureTemperature(s_loop);
             readoutTemperature(s_loop);
             if (initSending > 0) {

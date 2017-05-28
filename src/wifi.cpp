@@ -109,7 +109,7 @@ void startAP() {
 // Start Client, attempt to connect to Wifi network
 // -------------------------------------------------------------------
 void startClient() {
-  LED_setup(0.5);
+  LED_setup(0.8);
 /*
   delay(100);
   DEBUG.print("WiFi Scan: ");

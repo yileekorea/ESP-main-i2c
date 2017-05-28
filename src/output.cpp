@@ -57,7 +57,7 @@ void wireSetup()
     mcp_i2c.digitalWrite(i, LOW);
     delay(100);
   }
-  delay(3000);
+  delay(300);
   for ( i = 0; i < numberofOUT_gpio ; i++) {
     mcp_i2c.digitalWrite(i, HIGH);
     delay(100);

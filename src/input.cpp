@@ -55,17 +55,20 @@ void setON_OFFstatus(byte Sensor){
   byte nSensor = Sensor;
 
   if((L_Temp[nSensor] <= celsius[nSensor]) && ((millis() - Timer_2[nSensor]) > interOpenTimer) && (isOFF[nSensor] == 0)) {
-		rStatus[nSensor] = 0;
+	rStatus[nSensor] = 0;
     Timer_1[nSensor] = millis();
     isOFF[nSensor] = 1;
   }
   if(L_Temp[nSensor] > celsius[nSensor]) {
     rStatus[nSensor] = L_Temp[nSensor];
     isOFF[nSensor] = 0;
-    if(L_Temp[nSensor]){
+/*
+    if(L_Temp[nSensor]) //print when control is ON
+    {
 			Serial.print("  rStatus[] -----> ");
 			Serial.println(rStatus[nSensor]);
 		}
+*/
   }
   else if((millis() - Timer_1[nSensor]) > autoOff_OnTimer) {
     rStatus[nSensor] = L_Temp[nSensor];
@@ -82,12 +85,21 @@ void setON_OFFstatus(byte Sensor){
     Timer_2[nSensor] = millis();
 
     isOFF[nSensor] = 0;
-    if(L_Temp[nSensor]){
+/*
+    if(L_Temp[nSensor]) //print when control is ON
+    {
 			Serial.print("  rStatus[] -----> ");
 			Serial.println(rStatus[nSensor]);
 		}
-
+*/
   } //else if((millis() - Timer_1...
+  
+  if(L_Temp[nSensor]) //print when control is ON
+  {
+	Serial.print("  rStatus[] -----> ");
+	Serial.println(rStatus[nSensor]);
+  }
+
 }
 
 /*
