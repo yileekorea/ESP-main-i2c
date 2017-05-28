@@ -120,10 +120,11 @@ void readOneWireAddr()
       sName[nSensor] += String(addr[i], HEX);
       address[nSensor][i] = addr[i];
       Serial.write(' ');
-      //Serial.print(addr[i], HEX);
       Serial.print(address[nSensor][i], HEX);
     }
-    //Serial.print(sName[nSensor]);
+    Serial.println();
+    Serial.print("sName :");
+    Serial.print(sName[nSensor]);
 
     if (OneWire::crc8(addr, 7) != addr[7]) {
         Serial.println("CRC is not valid!:" + nSensor);

@@ -180,7 +180,6 @@ void send_a_TempData(byte Sensor) {
 
 			old_celsius[i] = celsius[i];
 		}
-		sName[i] = "";
 		//old_celsius[i] = celsius[i];
 		old_rStatus[i] = rStatus[i];
 
