@@ -160,9 +160,13 @@ void SPIFFS2L_Temp()
             roomNo += i;
             //L_Temp[i-1] = atof(strcpy(config_Temp, json[roomNo]));
             //DEBUG.println(L_Temp[i-1]);
-            L_Temp[i-1] = atof(json[roomNo]);
-            DEBUG.println(L_Temp[i-1]);
-
+			if((json[roomNo])) {
+				L_Temp[i-1] = atof(json[roomNo]);
+				DEBUG.println(L_Temp[i-1]);
+			}
+			else {
+				break;
+			}
           }
 
         } //if (json.success())

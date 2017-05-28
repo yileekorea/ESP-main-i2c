@@ -91,6 +91,15 @@ void setup() {
   SPIFFS2L_Temp();
 
   DEBUG.println("Loop start");
+
+  if (wifi_mode == WIFI_MODE_STA){
+      LED_clear();
+  }
+  else{
+	DEBUG.println("WIFI_MODE_AP_ONLY start");
+    LED_setup(0.2);
+  }
+  
 } // end setup
 
 // -------------------------------------------------------------------
