@@ -315,7 +315,7 @@ void mqttCallback(char* topic_sub, byte* payload, unsigned int length)
     //sendTempData();
     userTempset = 1;
     initSending = 2; //3times send all sensor data
-    L_Temp2SPIFFS();
+    L_Temp2SPIFFS(); //store received L_Temp to SPIFFS
 	}
 	else {
 		String exec = String(buffer);

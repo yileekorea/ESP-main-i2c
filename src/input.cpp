@@ -31,6 +31,10 @@
 #define interOpenTimer 300000UL //5min
 #define autoOff_OnTimer 1800000UL //30min
 
+/*
+#define interOpenTimer 60000UL //1min
+#define autoOff_OnTimer 120000UL //2min
+*/
 OneWire  ds(2);  // on pin 2 (a 4.7K resistor is necessary)
 
 String sName[]= {"a","b","c","d","e","f","g","h","i","j"};
@@ -285,7 +289,6 @@ String readFromOneWire()
     byte addr[8];
 
     while (ds.search(addr)) {
-    //    measure ();
     sName[nSensor] = "";
     //Serial.print("ROM =");
     for ( i = 0; i < 8; i++) {
