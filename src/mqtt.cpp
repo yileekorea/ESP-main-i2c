@@ -303,6 +303,10 @@ void mqttCallback(char* topic_sub, byte* payload, unsigned int length)
 		r_Sensor = atoi(buffer);	// number of Sensors
 		printf ("number of sensor %d\n",r_Sensor);
 
+    autoOff_OnTimer = atof(pch+1);
+    printf ("autoOff_OnTimer %d\n",autoOff_OnTimer);
+    pch=strchr(pch+1,':');
+
 		while (pch!=NULL)
 		{
 			L_Temp[i] = atof(pch+1);

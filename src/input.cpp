@@ -28,8 +28,9 @@
 
 #include "OneWire.h"
 
+#define a_min 60000UL //1min
 #define interOpenTimer 300000UL //5min
-#define autoOff_OnTimer 1800000UL //30min
+//#define autoOff_OnTimer 1800000UL //30min
 
 /*
 #define interOpenTimer 60000UL //1min
@@ -48,7 +49,7 @@ byte address[10][8];
 unsigned long Timer_1[] = {0,0,0,0,0,0,0,0};
 unsigned long Timer_2[] = {0,0,0,0,0,0,0,0};
 byte isOFF[] = {0,0,0,0,0,0,0,0};
-
+int autoOff_OnTimer = 30; //30min
 
 String input_string="";
 String last_datastr="";
@@ -74,7 +75,7 @@ void setON_OFFstatus(byte Sensor){
 		}
 */
   }
-  else if((millis() - Timer_1[nSensor]) > autoOff_OnTimer) {
+  else if((millis() - Timer_1[nSensor]) > (autoOff_OnTimer * a_min)) {
     rStatus[nSensor] = L_Temp[nSensor];
     DEBUG.println();
     DEBUG.print(nSensor);
