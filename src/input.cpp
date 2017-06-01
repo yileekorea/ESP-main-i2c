@@ -43,7 +43,7 @@ float old_celsius[] = {26,26,26,26,26,26,26,26};
 float celsius[] = {26,26,26,26,26,26,26,26};
 float old_rStatus[] = {1,1,1,1,1,1,1,1}; //room status all ON
 float rStatus[] = {0,0,0,0,0,0,0,0}; //room status all OFF
-float L_Temp[] = {26.7,26.7,26.7,26.7,26.7,26.7,26.7,26.7};
+float L_Temp[] = {26.7,26.7,26.7,26.7,26.7,26.7,26.7,26.7,26.7}; //max 9
 byte address[10][8];
 
 unsigned long Timer_1[] = {0,0,0,0,0,0,0,0};
@@ -53,6 +53,21 @@ int autoOff_OnTimer = 30; //30min
 
 String input_string="";
 String last_datastr="";
+const byte interruptPin = 15;
+volatile byte state = LOW;
+
+void accCount() {
+  state = !state;
+  Serial.print("  INT_Status[] -----> ");
+  Serial.println(state);
+
+}
+
+void INTsetup() {
+  pinMode(interruptPin, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(interruptPin), accCount, CHANGE);
+}
+
 /*
  * setON_OFFstatus by the measured Temperature
  */
@@ -60,9 +75,9 @@ void setON_OFFstatus(byte Sensor){
   byte nSensor = Sensor;
 
   if((L_Temp[nSensor] <= celsius[nSensor]) && ((millis() - Timer_2[nSensor]) > interOpenTimer) && (isOFF[nSensor] == 0)) {
-	rStatus[nSensor] = 0;
-    Timer_1[nSensor] = millis();
-    isOFF[nSensor] = 1;
+	   rStatus[nSensor] = 0;
+     Timer_1[nSensor] = millis();
+     isOFF[nSensor] = 1;
   }
   if(L_Temp[nSensor] > celsius[nSensor]) {
     rStatus[nSensor] = L_Temp[nSensor];

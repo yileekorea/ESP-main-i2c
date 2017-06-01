@@ -90,6 +90,8 @@ void setup() {
 
   SPIFFS2L_Temp();
 
+  INTsetup(); //GPIO15
+
   if (wifi_mode == WIFI_MODE_STA){
       DEBUG.println("Loop start...");
       LED_clear();
