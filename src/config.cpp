@@ -98,6 +98,83 @@ String mqtt_feed_prefix = "";
 #define EEPROM_WWW_PASS_START     EEPROM_WWW_USER_END
 #define EEPROM_WWW_PASS_END       (EEPROM_WWW_PASS_START + EEPROM_WWW_PASS_SIZE)
 
+void accHistory2SPIFFS()
+{
+  if (SPIFFS.begin())
+  {
+   Serial.println("Accumulate History json save...");
+    DynamicJsonBuffer jsonBuffer;
+    JsonObject& json = jsonBuffer.createObject();
+    String accHistory = "accHistory";
+    //for (byte i = 1; i < numSensor; ++i)
+    {
+      //String roomNo = "";
+      //roomNo = "room_";
+      //roomNo += i;
+      json[accHistory] = accCountValue;
+    }
+
+    File configFile = SPIFFS.open("/accHistory.json", "w");
+    if (!configFile) {
+      Serial.println("failed to open accHistory file for writing");
+    }
+    json.prettyPrintTo(Serial);
+    json.printTo(configFile);
+    configFile.close();
+    //end save
+  }
+}
+
+void SPIFFS2accHistory()
+{
+
+  Serial.println("Before .... mounted file system SPIFFS2accHistory");
+  if (SPIFFS.begin()) {
+    Serial.println("mounted file system for SPIFFS2accHistory");
+    if (SPIFFS.exists("/accHistory.json"))
+    {
+      //file exists, reading and loading
+      Serial.println("reading accHistory file");
+      File configFile = SPIFFS.open("/accHistory.json", "r");
+      if (configFile) {
+        Serial.println("opened accHistory file");
+        size_t size = configFile.size();
+        // Allocate a buffer to store contents of the file.
+        std::unique_ptr<char[]> buf(new char[size]);
+
+        configFile.readBytes(buf.get(), size);
+        DynamicJsonBuffer jsonBuffer;
+        JsonObject& json = jsonBuffer.parseObject(buf.get());
+        json.printTo(Serial);
+        if (json.success()) {
+          Serial.println("\nparsed accHistory json");
+
+          String accHistory = "accHistory";
+          //for (byte i = 1; i < numSensor; ++i)
+          {
+            //String roomNo = "";
+            //roomNo = "room_";
+            //roomNo += i;
+            //L_Temp[i-1] = atof(strcpy(config_Temp, json[roomNo]));
+            //DEBUG.println(L_Temp[i-1]);
+      			//if((json[accHistory]))
+            {
+      				accCountValue = atof(json[accHistory]);
+      				DEBUG.println(accCountValue);
+      			}
+          } //for
+
+        } //if (json.success())
+        else {
+          Serial.println("failed to load json accCountValue");
+        }
+      }
+    }
+  } else {
+    Serial.println("failed to mount FS for accCountValue");
+  }
+}
+
 // -------------------------------------------------------------------
 //save the custom parameters to FS
 // -------------------------------------------------------------------
@@ -134,7 +211,7 @@ void SPIFFS2L_Temp()
 {
   Serial.println("Before .... mounted file system");
   if (SPIFFS.begin()) {
-    Serial.println("mounted file system");
+    Serial.println("mounted file system for SPIFFS2L_Temp");
     if (SPIFFS.exists("/L_temp.json"))
     {
       //file exists, reading and loading
@@ -160,14 +237,14 @@ void SPIFFS2L_Temp()
             roomNo += i;
             //L_Temp[i-1] = atof(strcpy(config_Temp, json[roomNo]));
             //DEBUG.println(L_Temp[i-1]);
-			if((json[roomNo])) {
-				L_Temp[i-1] = atof(json[roomNo]);
-				DEBUG.println(L_Temp[i-1]);
-			}
-			else {
-				break;
-			}
-          }
+      			if((json[roomNo])) {
+      				L_Temp[i-1] = atof(json[roomNo]);
+      				DEBUG.println(L_Temp[i-1]);
+      			}
+      			else {
+      				break;
+      			}
+          } //for
 
         } //if (json.success())
         else {

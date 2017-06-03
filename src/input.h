@@ -44,6 +44,9 @@ extern float L_Temp[];
 extern byte address[10][8];
 extern int autoOff_OnTimer;
 
+extern float accCountValue;
+extern volatile byte INTstateHistory;
+
 // -------------------------------------------------------------------
 // Read input sent via the web_server or serial.
 //

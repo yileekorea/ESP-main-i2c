@@ -53,19 +53,26 @@ int autoOff_OnTimer = 30; //30min
 
 String input_string="";
 String last_datastr="";
-const byte interruptPin = 15;
-volatile byte state = LOW;
+
+const byte interruptPin = 13;
+float accCountValue = 0.00;
+volatile byte INTstateHistory = 0;
 
 void accCount() {
-  state = !state;
+  detachInterrupt(interruptPin);
+  accCountValue = accCountValue + 0.01;
+  INTstateHistory = 1;
+
+  //state = !state;
   Serial.print("  INT_Status[] -----> ");
-  Serial.println(state);
+  Serial.println(accCountValue);
 
 }
 
 void INTsetup() {
   pinMode(interruptPin, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(interruptPin), accCount, CHANGE);
+  //attachInterrupt(digitalPinToInterrupt(interruptPin), accCount, FALLING);
 }
 
 /*

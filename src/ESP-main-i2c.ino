@@ -83,6 +83,7 @@ void setup() {
   }
 
   //mcp_GPIO_setup(); //SPI GPIO
+  SPIFFS2accHistory();
 
   wireSetup();
 
@@ -90,7 +91,9 @@ void setup() {
 
   SPIFFS2L_Temp();
 
-  INTsetup(); //GPIO15
+  //delay(500);
+
+  INTsetup();
 
   if (wifi_mode == WIFI_MODE_STA){
       DEBUG.println("Loop start...");
@@ -122,6 +125,12 @@ void loop()
       //if ((tempTry == 0 || ((millis() - tempTry) > 6000UL))  && mqtt_connected())  // 6sec
   		if ((tempTry == 0 || ((millis() - tempTry) > 6000UL))  && 1)  // 6sec
   		{
+        if(INTstateHistory){
+          INTstateHistory = 0;
+          INTsetup();
+          accHistory2SPIFFS();
+          //SPIFFS2accHistory();
+        }
         DEBUG.println();
         DEBUG.println("Firmware: "+ currentfirmware);
         if ((userTempset == 1)){
