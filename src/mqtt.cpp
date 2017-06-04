@@ -147,7 +147,8 @@ void send_a_TempData(byte Sensor) {
     //for ( i = 0; i < numSensor ; i++) {
     if((abs(old_celsius[i] - celsius[i]) > 0.1) || (old_rStatus[i] != rStatus[i])) { //temp. difference is...
 
-			char pChrBuffer[5];
+      char pChrBuffer[5];
+			char pChrBuffer_acc[8];
 			String payload = "{\"tbl_name\":";
 			payload += "\"";
 			payload += MAC;
@@ -166,14 +167,23 @@ void send_a_TempData(byte Sensor) {
 				dtostrf(celsius[i] , 3, 1, pChrBuffer);
 				payload += pChrBuffer;   // *C
 			}
-
+/*
 			payload += ",\"sName\":";
 			payload += "\"";
 			payload += sName[i];   // sensor name
 			payload += "\"";
-
+*/
 			payload += ",\"cStatus\":";
 			payload += rStatus[i];   // room status
+
+      payload += ",\"cCount\":";
+			if ( isnan(accCountValue) )
+				payload += "0";
+			else {
+				dtostrf(accCountValue , 7, 2, pChrBuffer_acc);
+				payload += pChrBuffer_acc;
+			}
+
 			payload += "}";
 
 			sendmqttMsg((char *)topic_pub.c_str(), (char *)payload.c_str());
@@ -306,6 +316,13 @@ void mqttCallback(char* topic_sub, byte* payload, unsigned int length)
     autoOff_OnTimer = atof(pch+1);
     printf ("autoOff_OnTimer %d\n",autoOff_OnTimer);
     pch=strchr(pch+1,':');
+
+    accCountValue = atof(pch+1);
+    //printf ("accCountValue %f\n",accCountValue);
+    DEBUG.print("accCountValue : ");
+    DEBUG.println(accCountValue);
+    pch=strchr(pch+1,':');
+    INTstateHistory = 1;
 
 		while (pch!=NULL)
 		{

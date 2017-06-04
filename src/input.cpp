@@ -59,6 +59,9 @@ float accCountValue = 0.00;
 volatile byte INTstateHistory = 0;
 
 void accCount() {
+  delayMicroseconds(2000);
+  if(digitalRead(interruptPin) != LOW) return;
+
   detachInterrupt(interruptPin);
   accCountValue = accCountValue + 0.01;
   INTstateHistory = 1;
