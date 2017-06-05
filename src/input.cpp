@@ -25,6 +25,7 @@
 
 #include "io2better.h"
 #include "input.h"
+#include "mqtt.h"
 
 #include "OneWire.h"
 
@@ -59,12 +60,14 @@ float accCountValue = 0.00;
 volatile byte INTstateHistory = 0;
 
 void accCount() {
-  delayMicroseconds(2000);
+  delayMicroseconds(4000);
   if(digitalRead(interruptPin) != LOW) return;
 
   detachInterrupt(interruptPin);
   accCountValue = accCountValue + 0.01;
   INTstateHistory = 1;
+  userTempset = 1;
+  old_celsius[0] += 0.5;
 
   //state = !state;
   Serial.print("  INT_Status[] -----> ");
@@ -74,8 +77,8 @@ void accCount() {
 
 void INTsetup() {
   pinMode(interruptPin, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(interruptPin), accCount, CHANGE);
-  //attachInterrupt(digitalPinToInterrupt(interruptPin), accCount, FALLING);
+  //attachInterrupt(digitalPinToInterrupt(interruptPin), accCount, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(interruptPin), accCount, FALLING);
 }
 
 /*
