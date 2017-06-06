@@ -295,6 +295,8 @@ void mqttCallback(char* topic_sub, byte* payload, unsigned int length)
 	int i = 0;
 	int r_Sensor;
     char buffer[80];
+	float tmp_accCountValue;
+	
     int len = length >= 79 ? 79 : length;
     memcpy(buffer, payload, len);
     buffer[length] = 0;
@@ -317,22 +319,24 @@ void mqttCallback(char* topic_sub, byte* payload, unsigned int length)
     printf ("autoOff_OnTimer %d\n",autoOff_OnTimer);
     pch=strchr(pch+1,':');
 
-    accCountValue = atof(pch+1);
-    //printf ("accCountValue %f\n",accCountValue);
-    DEBUG.print("accCountValue : ");
-    DEBUG.println(accCountValue);
-    pch=strchr(pch+1,':');
-    INTstateHistory = 1;
+    tmp_accCountValue = atof(pch+1);
+	if(tmp_accCountValue > accCountValue) {
+		accCountValue = tmp_accCountValue;
+		INTstateHistory = 1;
+	}
+	DEBUG.print("accCountValue : ");
+	DEBUG.println(accCountValue);
+	pch=strchr(pch+1,':');
 
-		while (pch!=NULL)
-		{
+	while (pch!=NULL)
+	{
 			L_Temp[i] = atof(pch+1);
 			DEBUG.println(L_Temp[i]);
 			//printf ("found at %d\n",pch-buffer+1);
 			pch=strchr(pch+1,':');
 			old_celsius[i] += 0.5;
 			++i;
-		}
+	}
     //sendTempData();
     userTempset = 1;
     initSending = 2; //3times send all sensor data
