@@ -38,7 +38,7 @@
 const uint8_t MCP_CS = 15;
 gpio_MCP23S17 mcp(MCP_CS,0x20);//instance
 */
-Adafruit_MCP23017 mcp_i2c;
+Adafruit_MCP23017 mcp;
 
 Ticker ticker;
 /*
@@ -49,24 +49,24 @@ byte isOFF[] = {0,0,0,0,0,0,0,0};
 void wireSetup()
 {
   byte i;
-  mcp_i2c.begin();      // use default address 0
+  mcp.begin();      // use default address 0
   DEBUG.println("Start I2C wireSetup: ");
 
   for ( i = 0; i < numberofOUT_gpio ; i++) {
-    mcp_i2c.pinMode(i, OUTPUT);
-    mcp_i2c.digitalWrite(i, LOW);
+    mcp.pinMode(i, OUTPUT);
+    mcp.digitalWrite(i, LOW);
     delay(100);
   }
   delay(300);
   for ( i = 0; i < numberofOUT_gpio ; i++) {
-    mcp_i2c.digitalWrite(i, HIGH);
+    mcp.digitalWrite(i, HIGH);
     delay(100);
   }
 
   DEBUG.println("End I2C wireSetup: ");
 
   for ( i = 8; i < (numberofIN_gpio + 8) ; i++) {
-    mcp_i2c.pinMode(i, INPUT);
+    mcp.pinMode(i, INPUT);
   }
 }
 
@@ -77,7 +77,7 @@ void i2c_relayControl() {
     byte i;
 
     for ( i = 0; i < (numSensor-1) ; i++) {
-      rStatus[i] == 0 ? mcp_i2c.digitalWrite(i,HIGH) : mcp_i2c.digitalWrite(i,LOW);
+      rStatus[i] == 0 ? mcp.digitalWrite(i,HIGH) : mcp.digitalWrite(i,LOW);
     }
 /*
 	for ( i = 0; i < (numSensor) ; i++) {
@@ -85,7 +85,7 @@ void i2c_relayControl() {
 		if((L_Temp[i] <= celsius[i]) && ((millis() - Timer_2[i]) > 60000UL) && (isOFF[i] == 0)) { // 1min
       //if(isOFF[i] == 0)
       {
-        mcp_i2c.digitalWrite(i,HIGH); //if current celsius Greater than setting --> off
+        mcp.digitalWrite(i,HIGH); //if current celsius Greater than setting --> off
         Timer_1[i] = millis();
         isOFF[i] = 1;
         DEBUG.print(" isOFF: ");
@@ -109,7 +109,7 @@ void i2c_relayControl() {
       DEBUG.println(celsius[i]);
       DEBUG.println();
 
-      mcp_i2c.digitalWrite(i,LOW);
+      mcp.digitalWrite(i,LOW);
       isOFF[i] = 0;
 		}
     else if((millis() - Timer_1[i]) > 180000UL) { //3min
@@ -124,7 +124,7 @@ void i2c_relayControl() {
 
       Timer_1[i] = millis();
       Timer_2[i] = millis();
-      mcp_i2c.digitalWrite(i,LOW);
+      mcp.digitalWrite(i,LOW);
       isOFF[i] = 0;
 
     }
@@ -134,11 +134,11 @@ void i2c_relayControl() {
 
 void wireLoop()
 {
-  int state = mcp_i2c.digitalRead(0);  // get the current state of GPIO1 pin
+  int state = mcp.digitalRead(0);  // get the current state of GPIO1 pin
       DEBUG.println(" digitalRead(0): " + state);
 
-  mcp_i2c.digitalWrite(0, !state);     // set pin to the opposite state
-  mcp_i2c.digitalWrite(7, state);     // set pin to the opposite state
+  mcp.digitalWrite(0, !state);     // set pin to the opposite state
+  mcp.digitalWrite(7, state);     // set pin to the opposite state
   delay(9000);
 
 }
