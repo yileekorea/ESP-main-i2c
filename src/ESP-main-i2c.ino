@@ -125,35 +125,34 @@ void loop()
       //if ((tempTry == 0 || ((millis() - tempTry) > 6000UL))  && mqtt_connected())  // 6sec
   		if ((tempTry == 0 || ((millis() - tempTry) > 6000UL))  && 1)  // 6sec
   		{
-        if(INTstateHistory){
-          INTstateHistory = 0;
-          INTsetup();
-          accHistory2SPIFFS();
-          //SPIFFS2accHistory();
-        }
-        DEBUG.println();
-        DEBUG.println("Firmware: "+ currentfirmware);
-        if ((userTempset == 1)){
-            readFromOneWire();
-            sendTempData(); //send all sensor temp data
-            userTempset = 0;
-        }
-        else {
-            measureTemperature(s_loop);
-            readoutTemperature(s_loop);
-            if (initSending > 0) {
-              sendTempData(); //send all sensor temp data
-              initSending > 0 ? initSending-- : initSending = 0;
-            }
-            else {
-              send_a_TempData(s_loop);
-            }
-        }
-    		i2c_relayControl();
-        tempTry = millis();
-        s_loop == (numSensor-1) ? s_loop=0 : s_loop++;
-  		}
-
+			if(INTstateHistory){
+			  INTstateHistory = 0;
+			  INTsetup();
+			  accHistory2SPIFFS();
+			  //SPIFFS2accHistory();
+			}
+			DEBUG.println();
+			DEBUG.println("Firmware: "+ currentfirmware);
+			if ((userTempset == 1)){
+				readFromOneWire();
+				sendTempData(); //send all sensor temp data
+				userTempset = 0;
+			}
+			else {
+				measureTemperature(s_loop);
+				readoutTemperature(s_loop);
+				if (initSending > 0) {
+				  sendTempData(); //send all sensor temp data
+				  initSending > 0 ? initSending-- : initSending = 0;
+				}
+				else {
+				  send_a_TempData(s_loop);
+				}
+			}
+			i2c_relayControl();
+			tempTry = millis();
+			s_loop == (numSensor-1) ? s_loop=0 : s_loop++;
+  		} //if ((tempTry == 0 ||...
     } //if((mqtt_server != 0) ...
   } //if (wifi_mode==WIFI_MODE_STA ...
 } // end loop

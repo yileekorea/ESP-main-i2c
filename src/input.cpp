@@ -88,10 +88,11 @@ void setON_OFFstatus(byte Sensor){
   byte nSensor = Sensor;
 
   if((L_Temp[nSensor] <= celsius[nSensor]) && ((millis() - Timer_2[nSensor]) > interOpenTimer) && (isOFF[nSensor] == 0)) {
-	   rStatus[nSensor] = 0;
-     Timer_1[nSensor] = millis();
-     isOFF[nSensor] = 1;
+	rStatus[nSensor] = 0;
+    Timer_1[nSensor] = millis();
+    isOFF[nSensor] = 1;
   }
+  
   if(L_Temp[nSensor] > celsius[nSensor]) {
     rStatus[nSensor] = L_Temp[nSensor];
     isOFF[nSensor] = 0;
@@ -134,6 +135,7 @@ void setON_OFFstatus(byte Sensor){
   }
 
 }
+
 
 /*
  * Sensor address read
